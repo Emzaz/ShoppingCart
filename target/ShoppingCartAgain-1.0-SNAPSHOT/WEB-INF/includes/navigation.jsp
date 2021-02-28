@@ -13,7 +13,7 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">SignUp</a>
+                    <a class="nav-link" href="/signup">SignUp</a>
                 </li>
 
                 <li class="nav-item">
