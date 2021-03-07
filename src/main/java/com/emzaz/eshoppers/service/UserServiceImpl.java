@@ -16,13 +16,33 @@ public class UserServiceImpl implements UserService{
         String encrypted = encryptPassword(userDTO.getPassword());
         User user = new User();
 
-        user.setUserName(userDTO.getUserName());
+        user.setUserName(userDTO.getUsername());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setPassword(encrypted);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean isNotUniqueUsername(UserDTO user) {
+        return userRepository.findByUsername(user.getUsername()).isPresent();
+    }
+
+    @Override
+    public boolean isNotUniqueEmail(UserDTO user) {
+        return userRepository.findByEmail(user.getEmail()).isPresent();
+    }
+
+    @Override
+    public boolean isNotUniqueFirstName(UserDTO user) {
+        return userRepository.findByFirstName(user.getFirstName()).isPresent();
+    }
+
+    @Override
+    public boolean isNotUniqueLastName(UserDTO user) {
+        return userRepository.findByLastName(user.getLastName()).isPresent();
     }
 
     private String encryptPassword(String password) {

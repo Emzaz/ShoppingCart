@@ -1,19 +1,41 @@
 package com.emzaz.eshoppers.dtos;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserDTO {
-    private String userName;
+    @NotEmpty
+    @Size(min = 4, max = 32)
+    private String username;
+
+    @NotEmpty
+    @Size(min = 2, max = 32)
     private String firstName;
+
+    @NotEmpty
+    @Size(min = 2, max = 32)
     private String lastName;
+
+    @NotEmpty
+    @Size(min = 4, max = 32)
+    @Email
     private String email;
+
+    @NotEmpty
+    @Size(min = 6, max = 32)
     private String password;
+
+    @NotEmpty
+    @Size(min = 6, max = 32)
     private String passwordConfirmed;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getFirstName() {
@@ -59,7 +81,7 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-                "userName='" + userName + '\'' +
+                "userName='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
