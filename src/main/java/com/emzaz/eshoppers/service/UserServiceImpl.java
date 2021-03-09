@@ -1,8 +1,14 @@
 package com.emzaz.eshoppers.service;
 
 import com.emzaz.eshoppers.domain.User;
+import com.emzaz.eshoppers.dtos.LoginDTO;
 import com.emzaz.eshoppers.dtos.UserDTO;
+import com.emzaz.eshoppers.exceptions.UserNotFoundException;
 import com.emzaz.eshoppers.repository.UserRepository;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
@@ -46,6 +52,37 @@ public class UserServiceImpl implements UserService{
     }
 
     private String encryptPassword(String password) {
-        return password;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] bytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(bytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Unable to encrypt password", e);
+        }
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    @Override
+    public User verifyUser(LoginDTO loginDTO) {
+        User user = userRepository.findByUsername(loginDTO.getUsername()).orElseThrow(
+                () -> new UserNotFoundException("User not found by " + loginDTO.getUsername()));
+
+        String encrypted = encryptPassword(loginDTO.getPassword());
+        if(user.getPassword().equals(encrypted)) {
+            return user;
+        } else {
+            throw new UserNotFoundException("Incorrect username password");
+        }
     }
 }

@@ -1,9 +1,17 @@
+<%@ taglib prefix="sec" uri="http://emzaz.com/functions"%>
+
 <%@include file="includes/header.jsp"%>
 <%@include file="includes/navigation.jsp"%>
 
 <div class="container">
     <div class="jumbotron">
-        <h1>Welcome to e-Shoppers!</h1>
+        <c:if test="${sec:isAuthenticated(pageContext.request)}">
+            <h1>
+                Hello <c:out value="${sec:getCurrentUser(pageContext.request).firstName}"/>,
+                welcome to e-Shoppers!
+            </h1>
+        </c:if>
+
         <img src="<c:url value="/image/cart.png"/>" style="height: 200px" alt="" />
     </div>
     <div class="row">

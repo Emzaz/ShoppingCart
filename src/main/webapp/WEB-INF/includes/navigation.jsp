@@ -1,3 +1,5 @@
+<%@ taglib prefix="sec" uri="http://emzaz.com/functions"%>
+
 <nav class = "navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="<c:url value="/"/> ">e-Shoppers</a>
@@ -12,13 +14,32 @@
                     <a class="nav-link" href="<c:url value="/home"/>">Home</a>
                 </li>
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="/signup">SignUp</a>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li>
+
+                <c:choose>
+                    <c:when test="${sec:isAuthenticated(pageContext.request)}">
+                        <a class="nav-link" href="#" onclick="logout()">
+                            Logout
+                            [${sec:getCurrentUser(pageContext.request).firstName}]
+                        </a>
+                        <script>
+                            function logout() {
+                                document.getElementById("logoutForm").submit();
+                            }
+                        </script>
+
+                        <form style="visibility: hidden" id="logoutForm" method="post"
+                              action="<c:url value="/logout"/>">
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="nav-link" href="<c:url value="/login"/> ">
+                            Log In
+                        </a>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>

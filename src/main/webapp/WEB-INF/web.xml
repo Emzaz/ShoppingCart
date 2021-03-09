@@ -22,6 +22,24 @@
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.emzaz.eshoppers.web.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.emzaz.eshoppers.web.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/notFound.jsp</location>
@@ -31,5 +49,17 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/error.jsp</location>
     </error-page>
+
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>
+                http://emzaz.com/functions
+            </taglib-uri>
+            <taglib-location>
+                /WEB-INF/tags/functions.tld
+            </taglib-location>
+        </taglib>
+    </jsp-config>
 
 </web-app>
